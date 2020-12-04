@@ -13,6 +13,10 @@ public class EmployeeRequest {
         this.salary = salary;
     }
 
+    public EmployeeRequest(){
+
+    }
+
     public String getName() {
         return name;
     }

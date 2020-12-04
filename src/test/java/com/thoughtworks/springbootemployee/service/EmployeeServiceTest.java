@@ -27,7 +27,7 @@ public class EmployeeServiceTest {
     @Mock
     EmployeeRepository employeeRepository;
 
-    private final String employeeId1 = "1";
+    private final String employeeId = "1";
 
     @Test
     void should_return_all_employees_when_get_all_given_all_employees() {
@@ -48,10 +48,10 @@ public class EmployeeServiceTest {
     void should_return_an_employee_when_get_employee_given_an_employee() throws EmployeeNotFoundException {
         //given
         Employee expected = new Employee();
-        when(employeeRepository.findById(employeeId1)).thenReturn(Optional.of(expected));
+        when(employeeRepository.findById(employeeId)).thenReturn(Optional.of(expected));
 
         //when
-        final Employee actual = employeeService.getEmployee(employeeId1);
+        final Employee actual = employeeService.getEmployee(employeeId);
 
         //then
         assertEquals(expected, actual);
@@ -112,22 +112,21 @@ public class EmployeeServiceTest {
         when(employeeRepository.save(any())).thenReturn(expected);
 
         //when
-        Employee actual = employeeService.updateEmployee(employeeId1, expected);
+        Employee actual = employeeService.updateEmployee(employeeId, expected);
 
         //then
         assertEquals(expected, actual);
     }
 
-//    @Test
-//    void should_call_repository_delete_by_id_when_delete_employee_given_an_employee_id() throws EmployeeNotFoundException {
-//        //given
-//        Employee expected = new Employee();
-//
-//        //when
-//        final Employee actual = employeeService.createEmployee(expected);
-//        employeeService.deleteEmployee(actual.getId());
-//
-//        //then
-//        verify(employeeRepository, times(1)).deleteById(actual.getId());
-//    }
+    @Test
+    void should_call_repository_delete_by_id_when_delete_employee_given_an_employee_id() throws EmployeeNotFoundException {
+        //given
+        when(employeeRepository.existsById(any())).thenReturn(true);
+
+        //when
+        employeeService.deleteEmployee(employeeId);
+
+        //then
+        verify(employeeRepository, times(1)).deleteById(employeeId);
+    }
 }

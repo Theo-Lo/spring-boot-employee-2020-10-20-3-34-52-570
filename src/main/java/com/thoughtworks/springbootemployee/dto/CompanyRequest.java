@@ -11,6 +11,10 @@ public class CompanyRequest {
         this.employeesId = employeesId;
     }
 
+    public CompanyRequest(){
+
+    }
+
     public String getCompanyName() {
         return companyName;
     }

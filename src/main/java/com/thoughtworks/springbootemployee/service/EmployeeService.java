@@ -17,10 +17,6 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
     public List<Employee> getEmployees() {
         return employeeRepository.findAll();
     }
@@ -52,6 +48,7 @@ public class EmployeeService {
     public void deleteEmployee(String employeeId) throws EmployeeNotFoundException {
         if (this.employeeRepository.existsById(employeeId)) {
             employeeRepository.deleteById(employeeId);
+            return;
         }
         throw new EmployeeNotFoundException();
 
