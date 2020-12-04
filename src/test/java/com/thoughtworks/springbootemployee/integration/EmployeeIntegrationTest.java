@@ -239,4 +239,13 @@ public class EmployeeIntegrationTest {
         mockMvc.perform(delete(EMPLOYEES_URI + new ObjectId().toString()))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void should_return_400_when_delete_given_invalid_employee_id() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(delete(EMPLOYEES_URI + "123"))
+                .andExpect(status().isBadRequest());
+    }
 }
