@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.integration;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,24 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.age").value(18))
                 .andExpect(jsonPath("$.gender").value("male"))
                 .andExpect(jsonPath("$.salary").value(50000));
+    }
+
+    @Test
+    void should_return_404_when_get_employee_given_wrong_employee_id() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(get(EMPLOYEES_URI + new ObjectId().toString()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void should_return_400_when_get_employee_given_invalid_employee_id() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(get(EMPLOYEES_URI + "123"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -166,6 +185,40 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
+    void should_return_404_when_update_employee_given_wrong_employee_id() throws Exception {
+        //given
+        String employeeAsJson = "{\n" +
+                "    \"name\": \"Theo\",\n" +
+                "    \"age\": 22,\n" +
+                "    \"gender\": \"male\",\n" +
+                "    \"salary\": 50000\n" +
+                "}";
+        //when
+        //then
+        mockMvc.perform(put(EMPLOYEES_URI + new ObjectId().toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(employeeAsJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void should_return_400_when_update_employee_given_invalid_employee_id() throws Exception {
+        //given
+        String employeeAsJson = "{\n" +
+                "    \"name\": \"Theo\",\n" +
+                "    \"age\": 22,\n" +
+                "    \"gender\": \"male\",\n" +
+                "    \"salary\": 50000\n" +
+                "}";
+        //when
+        //then
+        mockMvc.perform(put(EMPLOYEES_URI + "123")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(employeeAsJson))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void should_return_no_content_when_delete_given_only_one_employee() throws Exception {
         //given
         Employee employee = employeeRepository.save(new Employee("Theo", 18, "male", 50000));
@@ -176,5 +229,14 @@ public class EmployeeIntegrationTest {
 
         List<Employee> employees = employeeRepository.findAll();
         assertEquals(0, employees.size());
+    }
+
+    @Test
+    void should_return_404_when_delete_given_wrong_employee_id() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(delete(EMPLOYEES_URI + new ObjectId().toString()))
+                .andExpect(status().isNotFound());
     }
 }

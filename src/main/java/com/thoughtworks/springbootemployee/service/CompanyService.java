@@ -60,7 +60,11 @@ public class CompanyService {
         throw new CompanyNotFoundException();
     }
 
-    public void deleteCompany(String companyId) {
-        companyRepository.deleteById(companyId);
+    public void deleteCompany(String companyId) throws CompanyNotFoundException {
+        if(companyRepository.existsById(companyId)){
+            companyRepository.deleteById(companyId);
+            return;
+        }
+        throw new CompanyNotFoundException();
     }
 }

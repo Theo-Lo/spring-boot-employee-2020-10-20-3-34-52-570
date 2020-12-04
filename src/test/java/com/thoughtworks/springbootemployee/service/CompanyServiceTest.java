@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -65,6 +66,18 @@ public class CompanyServiceTest {
     }
 
     @Test
+    void should_return_company_not_found_exception_when_get_company_given_a_wrong_company(){
+        //given
+        final Company expected = new Company();
+
+        //when
+        final CompanyNotFoundException CompanyNotFoundException = assertThrows(CompanyNotFoundException.class, () -> companyService.getCompany(companyId));
+
+        //then
+        assertEquals("Company Not Found.", CompanyNotFoundException.getMessage());
+    }
+
+    @Test
     void should_return_employee_list_when_get_a_company_employee_list_given_a_company() throws CompanyNotFoundException {
         //given
         final Company expected = new Company(companyName, new ArrayList<>());
@@ -75,6 +88,18 @@ public class CompanyServiceTest {
 
         //then
         assertEquals(new ArrayList<>(), employeesList);
+    }
+
+    @Test
+    void should_return_company_not_found_exception_when_get_a_company_employee_list_given_a_wrong_company(){
+        //given
+        final Company expected = new Company(companyName, new ArrayList<>());
+
+        //when
+        final CompanyNotFoundException CompanyNotFoundException = assertThrows(CompanyNotFoundException.class, () -> companyService.getEmployeeList("1"));
+
+        //then
+        assertEquals("Company Not Found.", CompanyNotFoundException.getMessage());
     }
 
     @Test
@@ -108,7 +133,20 @@ public class CompanyServiceTest {
         assertEquals(expected, actual);
     }
 
-    // use argument capture
+    @Test
+    void should_return_employee_not_found_exception_when_create_given_a_company_with_employee_id_not_exists(){
+        //given
+        List<String> employeesId = new ArrayList<>();
+        employeesId.add("123");
+        final Company expected = new Company("OOCL", employeesId);
+
+        //when
+        final EmployeeNotFoundException EmployeeNotFoundException = assertThrows(EmployeeNotFoundException.class, () -> companyService.createCompany(expected));
+
+        //then
+        assertEquals("Employee Not Found.", EmployeeNotFoundException.getMessage());
+    }
+
     @Test
     void should_return_updated_company_when_update_given_a_company_id_and_company_updates() throws CompanyNotFoundException, EmployeeNotFoundException {
         //given
@@ -124,13 +162,54 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_null_when_delete_given_a_company_id() {
+    void should_return_employee_not_found_exception_when_update_given_a_company_id_and_company_updates_with_wrong_employee_id(){
         //given
+        List<String> employeesId = new ArrayList<>();
+        employeesId.add("123");
+        final Company expected = new Company("OOCL", employeesId);
+        when(companyRepository.existsById(any())).thenReturn(true);
+
+        //when
+        final EmployeeNotFoundException EmployeeNotFoundException = assertThrows(EmployeeNotFoundException.class, () -> companyService.updateCompany(expected.getCompanyId(), expected));
+
+        //then
+        assertEquals("Employee Not Found.", EmployeeNotFoundException.getMessage());
+    }
+
+    @Test
+    void should_return_company_not_found_exception_when_update_given_a_company_id_and_company_updates_with_wrong_company_id(){
+        //given
+        List<String> employeesId = new ArrayList<>();
+        employeesId.add("123");
+        final Company expected = new Company("OOCL", employeesId);
+
+        //when
+        final CompanyNotFoundException CompanyNotFoundException = assertThrows(CompanyNotFoundException.class, () -> companyService.updateCompany(expected.getCompanyId(), expected));
+
+        //then
+        assertEquals("Company Not Found.", CompanyNotFoundException.getMessage());
+    }
+
+    @Test
+    void should_return_null_when_delete_given_a_company_id() throws CompanyNotFoundException {
+        //given
+        when(companyRepository.existsById(any())).thenReturn(true);
 
         //when
         companyService.deleteCompany(companyId);
 
         //then
         verify(companyRepository, times(1)).deleteById(companyId);
+    }
+
+    @Test
+    void should_return_company_not_found_exception_when_delete_given_a_wrong_company_id(){
+        //given
+
+        //when
+        final CompanyNotFoundException CompanyNotFoundException = assertThrows(CompanyNotFoundException.class, () -> companyService.deleteCompany(companyId));
+
+        //then
+        assertEquals("Company Not Found.", CompanyNotFoundException.getMessage());
     }
 }
