@@ -23,7 +23,7 @@ public class GlobalControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler({EmployeeNotFoundException.class})
+    @ExceptionHandler({CompanyNotFoundException.class})
     public ErrorResponse handleCompanyNotFound(CompanyNotFoundException exception) {
         return new ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND.name());
     }

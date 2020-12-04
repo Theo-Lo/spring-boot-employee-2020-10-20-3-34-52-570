@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
@@ -53,13 +54,15 @@ public class CompanyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Company createCompany(@RequestBody Company companyUpdate) {
-        return companyService.createCompany(companyUpdate);
+    public CompanyResponse createCompany(@RequestBody CompanyRequest companyUpdate) {
+        Company company = companyService.createCompany(companyMapper.toEntity(companyUpdate));
+        return companyMapper.toResponse(companyService.createCompany(company));
     }
 
     @PutMapping("/{companyId}")
-    public Company updateCompany(@PathVariable String companyId, @RequestBody Company companyUpdated) throws CompanyNotFoundException {
-        return companyService.updateCompany(companyId, companyUpdated);
+    public CompanyResponse updateCompany(@PathVariable String companyId, @RequestBody CompanyRequest companyUpdated) throws CompanyNotFoundException {
+        Company company = companyService.updateCompany(companyId, companyMapper.toEntity(companyUpdated));
+        return companyMapper.toResponse(companyService.createCompany(company));
     }
 
     @DeleteMapping("/{companyId}")
@@ -67,18 +70,4 @@ public class CompanyController {
     public void deleteCompany(@PathVariable String companyId) {
         companyService.deleteCompany(companyId);
     }
-
-//    private CompanyResponse formatCompanyResponse(Company company) throws CompanyNotFoundException {
-//        if (company == null) {
-//            throw new CompanyNotFoundException();
-//        }
-//        List<Employee> employees = this.companyService.getEmployeeList(company.getCompanyId());
-//        return new CompanyResponse(company.getCompanyName(), employees.size(), employees);
-//    }
-//
-//    private List<CompanyResponse> formatListOfCompanyResponse(List<Company> companies) throws CompanyNotFoundException{
-//        return companies.stream()
-//                .map(this::formatCompanyResponse)
-//                .collect(Collectors.toList());
-//    }
 }

@@ -36,4 +36,12 @@ public class Company {
     public List<String> getEmployeesId() {
         return this.employeesId;
     }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setEmployeesId(List<String> employeesId) {
+        this.employeesId = employeesId;
+    }
 }

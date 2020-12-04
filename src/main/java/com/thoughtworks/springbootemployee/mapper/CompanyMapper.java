@@ -2,9 +2,7 @@ package com.thoughtworks.springbootemployee.mapper;
 
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.CompanyResponse;
-import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.service.CompanyService;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,7 @@ public class CompanyMapper {
 
         BeanUtils.copyProperties(company, companyResponse);
         companyResponse.setEmployees(employeeService.getEmployeesById(company.getEmployeesId()));
+        companyResponse.setEmployeesNumber(employeeService.getEmployeesById(company.getEmployeesId()).size());
 
         return companyResponse;
     }
