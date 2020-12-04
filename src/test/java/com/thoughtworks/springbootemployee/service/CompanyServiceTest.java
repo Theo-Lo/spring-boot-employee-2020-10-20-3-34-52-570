@@ -66,10 +66,8 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_company_not_found_exception_when_get_company_given_a_wrong_company(){
+    void should_return_company_not_found_exception_when_get_company_given_a_wrong_company() {
         //given
-        final Company expected = new Company();
-
         //when
         final CompanyNotFoundException CompanyNotFoundException = assertThrows(CompanyNotFoundException.class, () -> companyService.getCompany(companyId));
 
@@ -91,10 +89,8 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_company_not_found_exception_when_get_a_company_employee_list_given_a_wrong_company(){
+    void should_return_company_not_found_exception_when_get_a_company_employee_list_given_a_wrong_company() {
         //given
-        final Company expected = new Company(companyName, new ArrayList<>());
-
         //when
         final CompanyNotFoundException CompanyNotFoundException = assertThrows(CompanyNotFoundException.class, () -> companyService.getEmployeeList("1"));
 
@@ -134,7 +130,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_employee_not_found_exception_when_create_given_a_company_with_employee_id_not_exists(){
+    void should_return_employee_not_found_exception_when_create_given_a_company_with_employee_id_not_exists() {
         //given
         List<String> employeesId = new ArrayList<>();
         employeesId.add("123");
@@ -162,7 +158,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_employee_not_found_exception_when_update_given_a_company_id_and_company_updates_with_wrong_employee_id(){
+    void should_return_employee_not_found_exception_when_update_given_a_company_id_and_company_updates_with_wrong_employee_id() {
         //given
         List<String> employeesId = new ArrayList<>();
         employeesId.add("123");
@@ -177,7 +173,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_company_not_found_exception_when_update_given_a_company_id_and_company_updates_with_wrong_company_id(){
+    void should_return_company_not_found_exception_when_update_given_a_company_id_and_company_updates_with_wrong_company_id() {
         //given
         List<String> employeesId = new ArrayList<>();
         employeesId.add("123");
@@ -203,7 +199,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_company_not_found_exception_when_delete_given_a_wrong_company_id(){
+    void should_return_company_not_found_exception_when_delete_given_a_wrong_company_id() {
         //given
 
         //when

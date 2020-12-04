@@ -59,10 +59,8 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_employee_not_found_exception_when_get_employee_given_a_wrong_employee(){
+    void should_return_employee_not_found_exception_when_get_employee_given_a_wrong_employee() {
         //given
-        Employee expected = new Employee();
-
         //when
         final EmployeeNotFoundException EmployeeNotFoundException = assertThrows(EmployeeNotFoundException.class, () -> employeeService.getEmployee(employeeId));
 
@@ -132,7 +130,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_employee_not_found_exception_when_update_employee_given_an_employee_id_and_employee(){
+    void should_return_employee_not_found_exception_when_update_employee_given_an_employee_id_and_employee() {
         //given
         Employee expected = new Employee();
 
@@ -156,9 +154,8 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_employee_not_found_exception_when_delete_employee_given_a_wrong_employee_id(){
+    void should_return_employee_not_found_exception_when_delete_employee_given_a_wrong_employee_id() {
         //given
-
         //when
         final EmployeeNotFoundException EmployeeNotFoundException = assertThrows(EmployeeNotFoundException.class, () -> employeeService.deleteEmployee(employeeId));
 

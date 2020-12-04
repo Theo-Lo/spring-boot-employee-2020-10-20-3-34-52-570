@@ -11,7 +11,7 @@ public class CompanyRequest {
         this.employeesId = employeesId;
     }
 
-    public CompanyRequest(){
+    public CompanyRequest() {
 
     }
 

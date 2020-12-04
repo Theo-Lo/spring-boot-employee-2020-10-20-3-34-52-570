@@ -17,7 +17,8 @@ public class CompanyResponse {
         this.employees = employees;
     }
 
-    public CompanyResponse() {}
+    public CompanyResponse() {
+    }
 
     public String getCompanyId() {
         return companyId;

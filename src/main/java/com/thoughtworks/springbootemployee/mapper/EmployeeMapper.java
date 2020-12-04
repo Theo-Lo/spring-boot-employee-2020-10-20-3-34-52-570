@@ -11,11 +11,6 @@ public class EmployeeMapper {
     public Employee toEntity(EmployeeRequest employeeRequest) {
         Employee employee = new Employee();
 
-//        employee.setName(employeeRequest.getName());
-//        employee.setAge(employeeRequest.getAge());
-//        employee.setGender(employeeRequest.getGender());
-//        employee.setSalary(employeeRequest.getSalary());
-
         BeanUtils.copyProperties(employeeRequest, employee);
 
         return employee;
@@ -23,12 +18,6 @@ public class EmployeeMapper {
 
     public EmployeeResponse toResponse(Employee employee) {
         EmployeeResponse employeeResponse = new EmployeeResponse();
-
-//        employeeResponse.setId(employee.getId());
-//        employeeResponse.setName(employee.getName());
-//        employeeResponse.setAge(employee.getAge());
-//        employeeResponse.setGender(employee.getGender());
-//        employeeResponse.setSalary(employee.getSalary());
 
         BeanUtils.copyProperties(employee, employeeResponse);
 

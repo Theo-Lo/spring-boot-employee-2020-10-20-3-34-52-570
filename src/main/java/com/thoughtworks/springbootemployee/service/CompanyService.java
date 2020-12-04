@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -30,7 +29,7 @@ public class CompanyService {
     }
 
     public Company createCompany(Company company) throws EmployeeNotFoundException {
-        if(company.getEmployeesId().stream().allMatch(employeeService::employeeExists)){
+        if (company.getEmployeesId().stream().allMatch(employeeService::employeeExists)) {
             return companyRepository.save(company);
         }
         throw new EmployeeNotFoundException();
@@ -48,10 +47,9 @@ public class CompanyService {
         return companyRepository.findAll(PageRequest.of(page - 1, pageSize));
     }
 
-    //confirm employee id exist
     public Company updateCompany(String companyId, Company companyUpdated) throws CompanyNotFoundException, EmployeeNotFoundException {
         if (this.companyRepository.existsById(companyId)) {
-            if(companyUpdated.getEmployeesId().stream().allMatch(employeeService::employeeExists)){
+            if (companyUpdated.getEmployeesId().stream().allMatch(employeeService::employeeExists)) {
                 companyUpdated.setCompanyId(companyId);
                 return companyRepository.save(companyUpdated);
             }
@@ -61,7 +59,7 @@ public class CompanyService {
     }
 
     public void deleteCompany(String companyId) throws CompanyNotFoundException {
-        if(companyRepository.existsById(companyId)){
+        if (companyRepository.existsById(companyId)) {
             companyRepository.deleteById(companyId);
             return;
         }

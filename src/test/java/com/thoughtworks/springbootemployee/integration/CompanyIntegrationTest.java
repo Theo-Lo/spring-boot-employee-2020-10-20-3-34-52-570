@@ -80,6 +80,7 @@ public class CompanyIntegrationTest {
         mockMvc.perform(get(COMPANIES_URI + new ObjectId().toString()))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     void should_return_400_when_get_company_by_id_given_invalid_company_id() throws Exception {
         //given
@@ -160,7 +161,7 @@ public class CompanyIntegrationTest {
         employeeList.add(employee2);
         String companyAsJson = "{\n" +
                 "    \"companyName\": \"OOCL\",\n" +
-                "    \"employeesId\": [\""+employee1.getId()+"\", \""+employee2.getId()+"\"]\n" +
+                "    \"employeesId\": [\"" + employee1.getId() + "\", \"" + employee2.getId() + "\"]\n" +
                 "}";
 
         //when
@@ -186,7 +187,7 @@ public class CompanyIntegrationTest {
         //given
         String companyAsJson = "{\n" +
                 "    \"companyName\": \"OOCL\",\n" +
-                "    \"employeesId\": [\""+new ObjectId().toString()+"\", \""+ new ObjectId().toString()+"\"]\n" +
+                "    \"employeesId\": [\"" + new ObjectId().toString() + "\", \"" + new ObjectId().toString() + "\"]\n" +
                 "}";
         //when
         //then
@@ -210,7 +211,7 @@ public class CompanyIntegrationTest {
         Company company = companyRepository.save(new Company("Facebook", employeeIdList));
         String companyAsJson = "{\n" +
                 "    \"companyName\": \"OOCL\",\n" +
-                "    \"employeesId\": [\""+employee1.getId()+"\"]\n" +
+                "    \"employeesId\": [\"" + employee1.getId() + "\"]\n" +
                 "}";
         employeeIdList.remove(employee2.getId());
 
@@ -245,7 +246,7 @@ public class CompanyIntegrationTest {
         Company company = companyRepository.save(new Company("Facebook", employeeIdList));
         String companyAsJson = "{\n" +
                 "    \"companyName\": \"OOCL\",\n" +
-                "    \"employeesId\": [\""+employee1.getId()+"\"]\n" +
+                "    \"employeesId\": [\"" + employee1.getId() + "\"]\n" +
                 "}";
         employeeIdList.remove(employee2.getId());
 
@@ -271,7 +272,7 @@ public class CompanyIntegrationTest {
         Company company = companyRepository.save(new Company("Facebook", employeeIdList));
         String companyAsJson = "{\n" +
                 "    \"companyName\": \"OOCL\",\n" +
-                "    \"employeesId\": [\""+employee1.getId()+"\"]\n" +
+                "    \"employeesId\": [\"" + employee1.getId() + "\"]\n" +
                 "}";
         employeeIdList.remove(employee2.getId());
 
@@ -297,7 +298,7 @@ public class CompanyIntegrationTest {
         Company company = companyRepository.save(new Company("Facebook", employeeIdList));
         String companyAsJson = "{\n" +
                 "    \"companyName\": \"OOCL\",\n" +
-                "    \"employeesId\": [\""+new ObjectId().toString()+"\"]\n" +
+                "    \"employeesId\": [\"" + new ObjectId().toString() + "\"]\n" +
                 "}";
         employeeIdList.remove(employee2.getId());
 
@@ -326,7 +327,6 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_404_when_delete_given_company_id_with_wrong_company_id() throws Exception {
         //given
-
         //when
         //then
         mockMvc.perform(delete(COMPANIES_URI + new ObjectId().toString()))
@@ -336,7 +336,6 @@ public class CompanyIntegrationTest {
     @Test
     void should_return_400_when_delete_given_company_id_with_invalid_company_id() throws Exception {
         //given
-
         //when
         //then
         mockMvc.perform(delete(COMPANIES_URI + "123"))

@@ -13,7 +13,7 @@ public class EmployeeRequest {
         this.salary = salary;
     }
 
-    public EmployeeRequest(){
+    public EmployeeRequest() {
 
     }
 
