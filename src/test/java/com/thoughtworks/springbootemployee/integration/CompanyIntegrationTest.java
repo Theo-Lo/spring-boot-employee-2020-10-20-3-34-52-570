@@ -97,16 +97,20 @@ public class CompanyIntegrationTest {
         //given
         companyRepository.save(new Company("Facebook", new ArrayList<>()));
         companyRepository.save(new Company("Google", new ArrayList<>()));
+        companyRepository.save(new Company("Apple", new ArrayList<>()));
 
         //when
         //then
-        mockMvc.perform(get(COMPANIES_URI).param("page", "1").param("pageSize", "1"))
+        mockMvc.perform(get(COMPANIES_URI).param("page", "1").param("pageSize", "2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.pageable.pageSize").value(1))
+                .andExpect(jsonPath("$.pageable.pageSize").value(2))
                 .andExpect(jsonPath("$.pageable.pageNumber").value(0))
                 .andExpect(jsonPath("$.content[0].companyName").value("Facebook"))
                 .andExpect(jsonPath("$.content[0].employeesNumber").value(0))
-                .andExpect(jsonPath("$.content[0].employees").value(new ArrayList<>()));
+                .andExpect(jsonPath("$.content[0].employees").value(new ArrayList<>()))
+                .andExpect(jsonPath("$.content[1].companyName").value("Google"))
+                .andExpect(jsonPath("$.content[1].employeesNumber").value(0))
+                .andExpect(jsonPath("$.content[1].employees").value(new ArrayList<>()));
     }
 
     @Test

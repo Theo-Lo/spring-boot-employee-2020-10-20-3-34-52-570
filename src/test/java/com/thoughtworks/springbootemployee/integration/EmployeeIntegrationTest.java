@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -84,23 +85,27 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$[0].salary").value(50000));
     }
 
-    // use 3 and 2 as example
     @Test
     void should_return_correct_page_when_get_employee_given_employees_and_page_and_page_size() throws Exception {
         //given
         employeeRepository.save(new Employee("Theo", 18, "male", 50000));
+        employeeRepository.save(new Employee("Marcus", 18, "male", 50000));
         employeeRepository.save(new Employee("Linne", 18, "female", 50000));
 
         //when
         //then
-        mockMvc.perform(get(EMPLOYEES_URI).param("page", "1").param("pageSize", "1"))
+        mockMvc.perform(get(EMPLOYEES_URI).param("page", "1").param("pageSize", "2"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", hasSize(1)))
-                .andExpect(jsonPath("$[0].id").isString())
-                .andExpect(jsonPath("$[0].name").value("Theo"))
-                .andExpect(jsonPath("$[0].age").value(18))
-                .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[0].salary").value(50000));
+                .andExpect(jsonPath("$.pageable.pageSize").value(2))
+                .andExpect(jsonPath("$.pageable.pageNumber").value(0))
+                .andExpect(jsonPath("$.content[0].name").value("Theo"))
+                .andExpect(jsonPath("$.content[0].age").value(18))
+                .andExpect(jsonPath("$.content[0].gender").value("male"))
+                .andExpect(jsonPath("$.content[0].salary").value(50000))
+                .andExpect(jsonPath("$.content[1].name").value("Marcus"))
+                .andExpect(jsonPath("$.content[1].age").value(18))
+                .andExpect(jsonPath("$.content[1].gender").value("male"))
+                .andExpect(jsonPath("$.content[1].salary").value(50000));
     }
 
     @Test
