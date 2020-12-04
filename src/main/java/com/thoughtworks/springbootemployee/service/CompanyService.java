@@ -29,9 +29,11 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
-    //confirm employee id exist
-    public Company createCompany(Company company) {
-        return companyRepository.save(company);
+    public Company createCompany(Company company) throws EmployeeNotFoundException {
+        if(company.getEmployeesId().stream().allMatch(employeeService::employeeExists)){
+            return companyRepository.save(company);
+        }
+        throw new EmployeeNotFoundException();
     }
 
     public Company getCompany(String companyId) throws CompanyNotFoundException {
@@ -47,10 +49,13 @@ public class CompanyService {
     }
 
     //confirm employee id exist
-    public Company updateCompany(String companyId, Company companyUpdated) throws CompanyNotFoundException {
+    public Company updateCompany(String companyId, Company companyUpdated) throws CompanyNotFoundException, EmployeeNotFoundException {
         if (this.companyRepository.existsById(companyId)) {
-            companyUpdated.setCompanyId(companyId);
-            return companyRepository.save(companyUpdated);
+            if(companyUpdated.getEmployeesId().stream().allMatch(employeeService::employeeExists)){
+                companyUpdated.setCompanyId(companyId);
+                return companyRepository.save(companyUpdated);
+            }
+            throw new EmployeeNotFoundException();
         }
         throw new CompanyNotFoundException();
     }

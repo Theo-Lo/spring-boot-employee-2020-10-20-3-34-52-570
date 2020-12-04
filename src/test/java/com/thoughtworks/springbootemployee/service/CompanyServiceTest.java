@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -32,9 +33,8 @@ public class CompanyServiceTest {
     @Mock
     EmployeeService employeeService;
 
-    // can remove 1
-    private final String companyId1 = "1";
-    private final String companyName1 = "Google";
+    private final String companyId = "1";
+    private final String companyName = "Google";
 
     @Test
     void should_return_all_companies_when_get_all_given_all_companies() {
@@ -58,7 +58,7 @@ public class CompanyServiceTest {
         when(companyRepository.findById(any())).thenReturn(Optional.of(expected));
 
         //when
-        final Company company = companyService.getCompany(companyId1);
+        final Company company = companyService.getCompany(companyId);
 
         //then
         assertEquals(expected, company);
@@ -67,7 +67,7 @@ public class CompanyServiceTest {
     @Test
     void should_return_employee_list_when_get_a_company_employee_list_given_a_company() throws CompanyNotFoundException {
         //given
-        final Company expected = new Company(companyName1, new ArrayList<>());
+        final Company expected = new Company(companyName, new ArrayList<>());
         when(companyRepository.findById(any())).thenReturn(Optional.of(expected));
 
         //when
@@ -96,9 +96,9 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_a_company_when_create_given_a_company() {
+    void should_return_a_company_when_create_given_a_company() throws EmployeeNotFoundException {
         //given
-        final Company expected = new Company();
+        final Company expected = new Company("OOCL", new ArrayList<>());
         when(companyRepository.save(any())).thenReturn(expected);
 
         //when
@@ -110,14 +110,14 @@ public class CompanyServiceTest {
 
     // use argument capture
     @Test
-    void should_return_updated_company_when_update_given_a_company_id_and_company_updates() throws CompanyNotFoundException {
+    void should_return_updated_company_when_update_given_a_company_id_and_company_updates() throws CompanyNotFoundException, EmployeeNotFoundException {
         //given
-        final Company expected = new Company();
+        final Company expected = new Company("OOCL", new ArrayList<>());
         when(companyRepository.existsById(any())).thenReturn(true);
         when(companyRepository.save(any())).thenReturn(expected);
 
         //when
-        Company actual = companyService.updateCompany(companyId1, expected);
+        Company actual = companyService.updateCompany(companyId, expected);
 
         //then
         assertEquals(expected, actual);
@@ -128,9 +128,9 @@ public class CompanyServiceTest {
         //given
 
         //when
-        companyService.deleteCompany(companyId1);
+        companyService.deleteCompany(companyId);
 
         //then
-        verify(companyRepository, times(1)).deleteById(companyId1);
+        verify(companyRepository, times(1)).deleteById(companyId);
     }
 }

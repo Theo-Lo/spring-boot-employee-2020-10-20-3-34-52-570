@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
+import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,9 @@ public class EmployeeService {
         return StreamSupport
                 .stream(employeeRepository.findAllById(employeesId).spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    public boolean employeeExists(String employeeId) {
+        return employeeRepository.existsById(employeeId);
     }
 }

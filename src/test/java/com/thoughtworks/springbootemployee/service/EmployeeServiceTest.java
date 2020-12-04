@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,6 +56,18 @@ public class EmployeeServiceTest {
 
         //then
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void should_return_employee_not_found_exception_when_get_employee_given_a_wrong_employee(){
+        //given
+        Employee expected = new Employee();
+
+        //when
+        final EmployeeNotFoundException EmployeeNotFoundException = assertThrows(EmployeeNotFoundException.class, () -> employeeService.getEmployee(employeeId));
+
+        //then
+        assertEquals("Employee Not Found.", EmployeeNotFoundException.getMessage());
     }
 
     @Test
@@ -119,6 +132,18 @@ public class EmployeeServiceTest {
     }
 
     @Test
+    void should_return_employee_not_found_exception_when_update_employee_given_an_employee_id_and_employee(){
+        //given
+        Employee expected = new Employee();
+
+        //when
+        final EmployeeNotFoundException EmployeeNotFoundException = assertThrows(EmployeeNotFoundException.class, () -> employeeService.updateEmployee(employeeId, expected));
+
+        //then
+        assertEquals("Employee Not Found.", EmployeeNotFoundException.getMessage());
+    }
+
+    @Test
     void should_call_repository_delete_by_id_when_delete_employee_given_an_employee_id() throws EmployeeNotFoundException {
         //given
         when(employeeRepository.existsById(any())).thenReturn(true);
@@ -128,5 +153,16 @@ public class EmployeeServiceTest {
 
         //then
         verify(employeeRepository, times(1)).deleteById(employeeId);
+    }
+
+    @Test
+    void should_return_employee_not_found_exception_when_delete_employee_given_a_wrong_employee_id(){
+        //given
+
+        //when
+        final EmployeeNotFoundException EmployeeNotFoundException = assertThrows(EmployeeNotFoundException.class, () -> employeeService.deleteEmployee(employeeId));
+
+        //then
+        assertEquals("Employee Not Found.", EmployeeNotFoundException.getMessage());
     }
 }

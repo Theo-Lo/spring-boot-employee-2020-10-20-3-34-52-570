@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.controller;
 import com.thoughtworks.springbootemployee.dto.CompanyRequest;
 import com.thoughtworks.springbootemployee.dto.EmployeeResponse;
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import com.thoughtworks.springbootemployee.mapper.CompanyMapper;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Company;
@@ -54,13 +55,13 @@ public class CompanyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompanyResponse createCompany(@RequestBody CompanyRequest companyUpdate) {
+    public CompanyResponse createCompany(@RequestBody CompanyRequest companyUpdate) throws EmployeeNotFoundException {
         Company company = companyService.createCompany(companyMapper.toEntity(companyUpdate));
         return companyMapper.toResponse(companyService.createCompany(company));
     }
 
     @PutMapping("/{companyId}")
-    public CompanyResponse updateCompany(@PathVariable String companyId, @RequestBody CompanyRequest companyUpdated) throws CompanyNotFoundException {
+    public CompanyResponse updateCompany(@PathVariable String companyId, @RequestBody CompanyRequest companyUpdated) throws CompanyNotFoundException, EmployeeNotFoundException {
         Company company = companyService.updateCompany(companyId, companyMapper.toEntity(companyUpdated));
         return companyMapper.toResponse(companyService.createCompany(company));
     }
